@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 # 4od-dl version 0.4. https://github.com/robwatkins/4od-dl
 
 require 'rubygems'
