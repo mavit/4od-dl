@@ -5,10 +5,10 @@
 require 'rubygems'
 require 'logger'
 require 'hpricot'
-require 'crypt/blowfish'
 require 'base64'
 require 'open-uri'
 require 'optparse'
+require 'openssl'
 
 @log = Logger.new(STDOUT)
 @log.sev_threshold = Logger::INFO
@@ -300,23 +300,9 @@ class FourODProgramDownloader
   #Idea mostly taken from http://code.google.com/p/nibor-xbmc-repo/source/browse/trunk/plugin.video.4od/fourOD_token_decoder.py
   #Thanks to nibor for writing this in the first place!
   def decode_token(token)
-    encryptedBytes = Base64.decode64(token)
-    key = "STINGMIMI"
-    blowfish = Crypt::Blowfish.new(key)
-
-    position = 0
-    decrypted_token = ''
-
-    while position < encryptedBytes.length
-      decrypted_token += blowfish.decrypt_block(encryptedBytes[position..position + 7]);
-      position += 8
-    end
-
-    npad = decrypted_token.slice(-1)[0].ord
-    if (npad > 0 && npad < 9)
-      decrypted_token = decrypted_token.slice(0, decrypted_token.length-npad)
-    end
-
+    blowfish = OpenSSL::Cipher.new('bf-cbc').decrypt
+    blowfish.key = "STINGMIMI"
+    decrypted_token = blowfish.update(Base64.decode64(token)) << blowfish.final
     return decrypted_token
   end
 
