@@ -1,0 +1,11 @@
+--- crypt-1.1.4/crypt/blowfish.rb~	2013-06-21 12:42:39.000000000 +0100
++++ crypt-1.1.4/crypt/blowfish.rb	2013-06-21 12:41:27.000000000 +0100
+@@ -44,7 +44,7 @@
+     0.upto(17) { |i|
+       data = 0
+       4.times {
+-        data = ((data << 8) | @key[keypos]) % ULONG
++        data = ((data << 8) | @key[keypos].ord) % ULONG
+         keypos = (keypos.next) % @key.length
+       }
+       @pArray[i] = (@pArray[i] ^ data) % ULONG

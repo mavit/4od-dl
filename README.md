@@ -25,6 +25,9 @@ It also uses the following gems that you must install (I will sort out a Gemfile
 * hpricot
 * crypt
 
+If you're using Ruby 1.9 or higher you may need to apply the included
+patch against crypt.
+
 Usage
 =====
 
