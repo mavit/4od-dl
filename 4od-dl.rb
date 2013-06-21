@@ -312,7 +312,7 @@ class FourODProgramDownloader
       position += 8
     end
 
-    npad = decrypted_token.slice(-1)
+    npad = decrypted_token.slice(-1)[0].ord
     if (npad > 0 && npad < 9)
       decrypted_token = decrypted_token.slice(0, decrypted_token.length-npad)
     end
